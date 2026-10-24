@@ -1,0 +1,7 @@
+{
+  "name": "Foreca Weather",
+  "content_in_root": false,
+  "filename": "foreca_weather.zip",
+  "homeassistant": "2026.10.2",
+  "zip_release": true
+}
