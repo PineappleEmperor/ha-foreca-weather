@@ -24,11 +24,11 @@ from homeassistant.const import (
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from homeassistant.helpers.typing import StateType
-from pyforeca import DailyForecast
+from pyforeca import AirQualityForecast, DailyForecast
 
 from .coordinator import ForecaConfigEntry, ForecaCoordinator
 from .entity import ForecaEntity
-from .helpers import CONDITIONS, symbol_to_condition
+from .helpers import CONDITIONS, POLLUTANTS, pollutant_key, symbol_to_condition
 from .models import ForecaData
 
 PARALLEL_UPDATES = 0
@@ -46,6 +46,13 @@ def _today(
 ) -> StateType:
     """Read a value from today's forecast, the first day Foreca sends."""
     return value_fn(data.daily[0]) if data.daily else None
+
+
+def _air_quality(
+    data: ForecaData, value_fn: Callable[[AirQualityForecast], StateType]
+) -> StateType:
+    """Read a value from the nearest hour of the air-quality forecast."""
+    return value_fn(data.air_quality) if data.air_quality else None
 
 
 SENSORS: tuple[ForecaSensorDescription, ...] = (
@@ -201,6 +208,70 @@ SENSORS: tuple[ForecaSensorDescription, ...] = (
         native_unit_of_measurement=UnitOfPrecipitationDepth.MILLIMETERS,
         entity_registry_enabled_default=False,
         value_fn=lambda data: _today(data, lambda today: today.precip_accum),
+    ),
+    ForecaSensorDescription(
+        key="air_quality_index",
+        device_class=SensorDeviceClass.AQI,
+        state_class=SensorStateClass.MEASUREMENT,
+        value_fn=lambda data: _air_quality(data, lambda aq: aq.aqi),
+    ),
+    ForecaSensorDescription(
+        key="main_pollutant",
+        translation_key="main_pollutant",
+        device_class=SensorDeviceClass.ENUM,
+        options=list(POLLUTANTS.values()),
+        entity_registry_enabled_default=False,
+        value_fn=lambda data: _air_quality(
+            data, lambda aq: pollutant_key(aq.pollutant)
+        ),
+    ),
+    ForecaSensorDescription(
+        key="carbon_monoxide_aqi",
+        translation_key="carbon_monoxide_aqi",
+        device_class=SensorDeviceClass.AQI,
+        state_class=SensorStateClass.MEASUREMENT,
+        entity_registry_enabled_default=False,
+        value_fn=lambda data: _air_quality(data, lambda aq: aq.aqi_co),
+    ),
+    ForecaSensorDescription(
+        key="nitrogen_dioxide_aqi",
+        translation_key="nitrogen_dioxide_aqi",
+        device_class=SensorDeviceClass.AQI,
+        state_class=SensorStateClass.MEASUREMENT,
+        entity_registry_enabled_default=False,
+        value_fn=lambda data: _air_quality(data, lambda aq: aq.aqi_no2),
+    ),
+    ForecaSensorDescription(
+        key="ozone_aqi",
+        translation_key="ozone_aqi",
+        device_class=SensorDeviceClass.AQI,
+        state_class=SensorStateClass.MEASUREMENT,
+        entity_registry_enabled_default=False,
+        value_fn=lambda data: _air_quality(data, lambda aq: aq.aqi_o3),
+    ),
+    ForecaSensorDescription(
+        key="sulphur_dioxide_aqi",
+        translation_key="sulphur_dioxide_aqi",
+        device_class=SensorDeviceClass.AQI,
+        state_class=SensorStateClass.MEASUREMENT,
+        entity_registry_enabled_default=False,
+        value_fn=lambda data: _air_quality(data, lambda aq: aq.aqi_so2),
+    ),
+    ForecaSensorDescription(
+        key="pm10_aqi",
+        translation_key="pm10_aqi",
+        device_class=SensorDeviceClass.AQI,
+        state_class=SensorStateClass.MEASUREMENT,
+        entity_registry_enabled_default=False,
+        value_fn=lambda data: _air_quality(data, lambda aq: aq.aqi_pm10),
+    ),
+    ForecaSensorDescription(
+        key="pm25_aqi",
+        translation_key="pm25_aqi",
+        device_class=SensorDeviceClass.AQI,
+        state_class=SensorStateClass.MEASUREMENT,
+        entity_registry_enabled_default=False,
+        value_fn=lambda data: _air_quality(data, lambda aq: aq.aqi_pm2p5),
     ),
 )
 

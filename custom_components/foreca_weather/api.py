@@ -7,7 +7,7 @@ pyforeca's exceptions into Home Assistant's.
 import aiohttp
 from pyforeca import ForecaApiClient, format_location
 
-from .const import DAILY_PERIODS, HOURLY_PERIODS
+from .const import AIR_QUALITY_PERIODS, DAILY_PERIODS, HOURLY_PERIODS
 from .models import ForecaData
 
 
@@ -31,7 +31,10 @@ class ForecaWeatherApi:
         return location.name
 
     async def async_get_data(self) -> ForecaData:
-        """Fetch the current conditions and the hourly and daily forecasts."""
+        """Fetch the current conditions, both forecasts and the air quality."""
+        air_quality = await self._client.air_quality_hourly(
+            self._location, periods=AIR_QUALITY_PERIODS
+        )
         return ForecaData(
             current=await self._client.current(self._location),
             hourly=await self._client.forecast_hourly(
@@ -40,4 +43,5 @@ class ForecaWeatherApi:
             daily=await self._client.forecast_daily(
                 self._location, periods=DAILY_PERIODS
             ),
+            air_quality=air_quality[0] if air_quality else None,
         )

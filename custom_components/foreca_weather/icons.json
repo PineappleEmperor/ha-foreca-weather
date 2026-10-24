@@ -10,6 +10,9 @@
       "description": {
         "default": "mdi:text"
       },
+      "main_pollutant": {
+        "default": "mdi:molecule"
+      },
       "precipitation_probability": {
         "default": "mdi:weather-rainy"
       },

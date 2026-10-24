@@ -24,3 +24,4 @@ async def test_diagnostics(
     assert result["current"]["temperature"] == 7.1
     assert len(result["hourly"]) == 3
     assert [day["date"] for day in result["daily"]] == ["2026-10-24", "2026-10-25"]
+    assert result["air_quality"]["aqi"] == 102
