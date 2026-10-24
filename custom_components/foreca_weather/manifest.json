@@ -1,6 +1,7 @@
 {
   "domain": "foreca_weather",
   "name": "Foreca Weather",
+  "categories": ["weather_alerts.forecasts"],
   "codeowners": ["@PineappleEmperor"],
   "config_flow": true,
   "dependencies": [],
