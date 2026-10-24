@@ -1,0 +1,14 @@
+{
+  "domain": "foreca_weather",
+  "name": "Foreca Weather",
+  "codeowners": ["@PineappleEmperor"],
+  "config_flow": true,
+  "dependencies": [],
+  "documentation": "https://github.com/PineappleEmperor/ha-foreca-weather",
+  "integration_type": "service",
+  "iot_class": "cloud_polling",
+  "issue_tracker": "https://github.com/PineappleEmperor/ha-foreca-weather/issues",
+  "loggers": ["pyforeca"],
+  "requirements": ["pyforeca==0.2.2"],
+  "version": "0.1.0"
+}

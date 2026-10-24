@@ -1,0 +1,24 @@
+{
+  "entity": {
+    "sensor": {
+      "cloud_coverage": {
+        "default": "mdi:weather-cloudy"
+      },
+      "condition": {
+        "default": "mdi:weather-partly-cloudy"
+      },
+      "description": {
+        "default": "mdi:text"
+      },
+      "precipitation_probability": {
+        "default": "mdi:weather-rainy"
+      },
+      "thunder_probability": {
+        "default": "mdi:weather-lightning"
+      },
+      "uv_index": {
+        "default": "mdi:sun-wireless"
+      }
+    }
+  }
+}

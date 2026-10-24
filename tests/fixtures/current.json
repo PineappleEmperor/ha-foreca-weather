@@ -1,0 +1,22 @@
+{
+  "current": {
+    "cloudiness": 75,
+    "dewPoint": 4.1,
+    "feelsLikeTemp": 3.2,
+    "precipProb": 20,
+    "precipRate": 0,
+    "pressure": 1012.4,
+    "relHumidity": 82,
+    "symbol": "d400",
+    "symbolPhrase": "overcast",
+    "temperature": 7.1,
+    "thunderProb": 0,
+    "time": "2026-10-24T12:20+03:00",
+    "uvIndex": 1,
+    "visibility": 19934,
+    "windDir": 220,
+    "windDirString": "SW",
+    "windGust": 9.6,
+    "windSpeed": 4.3
+  }
+}

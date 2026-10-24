@@ -1,0 +1,34 @@
+{
+  "forecast": [
+    {
+      "cloudiness": 90,
+      "date": "2026-10-24",
+      "maxFeelsLikeTemp": 4.1,
+      "maxTemp": 8.2,
+      "maxWindGust": 12.4,
+      "maxWindSpeed": 5.6,
+      "minTemp": 3.9,
+      "precipAccum": 2.6,
+      "precipProb": 80,
+      "pressure": 1011.8,
+      "symbol": "d320",
+      "uvIndex": 1,
+      "windDir": 225
+    },
+    {
+      "cloudiness": 40,
+      "date": "2026-10-25",
+      "maxFeelsLikeTemp": 6.0,
+      "maxTemp": 9.4,
+      "maxWindGust": 8.1,
+      "maxWindSpeed": 3.9,
+      "minTemp": 2.1,
+      "precipAccum": 0,
+      "precipProb": 5,
+      "pressure": 1018.3,
+      "symbol": "d200",
+      "uvIndex": 2,
+      "windDir": 270
+    }
+  ]
+}

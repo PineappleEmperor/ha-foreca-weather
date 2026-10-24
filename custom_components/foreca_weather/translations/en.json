@@ -1,0 +1,111 @@
+{
+  "config": {
+    "abort": {
+      "already_configured": "This location is already set up."
+    },
+    "error": {
+      "cannot_connect": "Could not reach Foreca. Try again later.",
+      "invalid_auth": "Foreca rejected the API key.",
+      "rate_limited": "Foreca's request limit for this API key is used up. Try again later.",
+      "unknown": "Unexpected error."
+    },
+    "step": {
+      "reauth_confirm": {
+        "data": {
+          "api_key": "API key"
+        },
+        "data_description": {
+          "api_key": "A new key from My API on Foreca's developer site."
+        },
+        "description": "Foreca no longer accepts the API key for this location.",
+        "title": "Enter a new Foreca API key"
+      },
+      "reconfigure": {
+        "data": {
+          "location": "Location"
+        },
+        "data_description": {
+          "location": "The place to forecast."
+        },
+        "title": "Move the Foreca location"
+      },
+      "user": {
+        "data": {
+          "api_key": "API key",
+          "location": "Location"
+        },
+        "data_description": {
+          "api_key": "A key from My API on Foreca's developer site.",
+          "location": "The place to forecast."
+        },
+        "title": "Set up Foreca Weather"
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "apparent_temperature": {
+        "name": "Apparent temperature"
+      },
+      "cloud_coverage": {
+        "name": "Cloud coverage"
+      },
+      "condition": {
+        "name": "Condition",
+        "state": {
+          "clear-night": "Clear, night",
+          "cloudy": "Cloudy",
+          "fog": "Fog",
+          "lightning-rainy": "Lightning, rainy",
+          "partlycloudy": "Partly cloudy",
+          "pouring": "Pouring",
+          "rainy": "Rainy",
+          "snowy": "Snowy",
+          "snowy-rainy": "Snowy, rainy",
+          "sunny": "Sunny"
+        }
+      },
+      "description": {
+        "name": "Description"
+      },
+      "dew_point": {
+        "name": "Dew point"
+      },
+      "precipitation_probability": {
+        "name": "Precipitation probability"
+      },
+      "precipitation_today": {
+        "name": "Precipitation today"
+      },
+      "temperature_high_today": {
+        "name": "High temperature today"
+      },
+      "temperature_low_today": {
+        "name": "Low temperature today"
+      },
+      "thunder_probability": {
+        "name": "Thunder probability"
+      },
+      "uv_index": {
+        "name": "UV index"
+      },
+      "visibility": {
+        "name": "Visibility"
+      },
+      "wind_gust_speed": {
+        "name": "Wind gust speed"
+      }
+    }
+  },
+  "exceptions": {
+    "cannot_connect": {
+      "message": "Could not fetch the forecast from Foreca: {error}"
+    },
+    "invalid_auth": {
+      "message": "Foreca rejected the API key."
+    },
+    "rate_limited": {
+      "message": "Foreca's request limit for this API key is used up."
+    }
+  }
+}
