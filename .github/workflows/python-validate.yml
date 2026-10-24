@@ -1,0 +1,13 @@
+name: Python Validate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    uses: PineappleEmperor/ha-integration-ci/.github/workflows/python-validate.yml@9839ae2f8f15262a452d8cef38aac07b8b7098a8 # v3.0.0

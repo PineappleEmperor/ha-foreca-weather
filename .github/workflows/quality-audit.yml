@@ -1,0 +1,13 @@
+name: Skill Audit
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    uses: PineappleEmperor/ha-integration-ci/.github/workflows/quality-audit.yml@9839ae2f8f15262a452d8cef38aac07b8b7098a8 # v3.0.0
