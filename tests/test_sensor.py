@@ -22,6 +22,7 @@ ENABLED = [
     ("sensor.helsinki_atmospheric_pressure", "1012.4"),
     ("sensor.helsinki_wind_speed", "15.48"),
     ("sensor.helsinki_uv_index", "1"),
+    ("sensor.helsinki_air_quality_index", "102"),
 ]
 
 DISABLED = [
@@ -39,6 +40,19 @@ DISABLED = [
     ("sensor.helsinki_high_temperature_today", "8.2"),
     ("sensor.helsinki_low_temperature_today", "3.9"),
     ("sensor.helsinki_precipitation_today", "2.6"),
+    ("sensor.helsinki_main_pollutant", "pm25"),
+    ("sensor.helsinki_carbon_monoxide_air_quality_index", "8"),
+    ("sensor.helsinki_nitrogen_dioxide_air_quality_index", "6"),
+    ("sensor.helsinki_ozone_air_quality_index", "24"),
+    ("sensor.helsinki_sulphur_dioxide_air_quality_index", "4"),
+    ("sensor.helsinki_pm10_air_quality_index", "64"),
+    ("sensor.helsinki_pm2_5_air_quality_index", "102"),
+]
+
+AIR_QUALITY = [
+    "sensor.helsinki_air_quality_index",
+    "sensor.helsinki_main_pollutant",
+    "sensor.helsinki_pm2_5_air_quality_index",
 ]
 
 TODAY = [
@@ -106,3 +120,23 @@ async def test_today_without_daily_forecast(
     await hass.config_entries.async_setup(mock_config_entry.entry_id)
     await hass.async_block_till_done()
     assert hass.states.get(entity_id).state == STATE_UNKNOWN
+
+
+@pytest.mark.usefixtures("entity_registry_enabled_by_default")
+@pytest.mark.parametrize("entity_id", AIR_QUALITY)
+async def test_air_quality_without_forecast(
+    hass: HomeAssistant,
+    aioclient_mock: AiohttpClientMocker,
+    payloads: dict[str, dict[str, Any]],
+    mock_config_entry: MockConfigEntry,
+    entity_id: str,
+) -> None:
+    """Air-quality sensors read unknown, and the weather stays up, without an hour."""
+    mock_responses(
+        aioclient_mock, LOCATION, {**payloads, "air_quality": {"forecast": []}}
+    )
+    mock_config_entry.add_to_hass(hass)
+    await hass.config_entries.async_setup(mock_config_entry.entry_id)
+    await hass.async_block_till_done()
+    assert hass.states.get(entity_id).state == STATE_UNKNOWN
+    assert hass.states.get("weather.helsinki").state == "cloudy"

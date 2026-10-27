@@ -54,6 +54,10 @@ def mock_responses(
         f"{BASE_URL}/forecast/hourly/{location}", json=payloads["hourly"]
     )
     aioclient_mock.get(f"{BASE_URL}/forecast/daily/{location}", json=payloads["daily"])
+    aioclient_mock.get(
+        f"{BASE_URL}/air-quality/forecast/hourly/{location}",
+        json=payloads["air_quality"],
+    )
 
 
 def mock_error(
@@ -63,7 +67,13 @@ def mock_error(
     exc: Exception | None = None,
 ) -> None:
     """Fail every Foreca request for a location with a status or an exception."""
-    for path in ("location", "current", "forecast/hourly", "forecast/daily"):
+    for path in (
+        "location",
+        "current",
+        "forecast/hourly",
+        "forecast/daily",
+        "air-quality/forecast/hourly",
+    ):
         aioclient_mock.get(f"{BASE_URL}/{path}/{location}", status=status, exc=exc)
 
 
@@ -81,6 +91,7 @@ def payloads() -> dict[str, dict[str, Any]]:
         "current": load_json_object_fixture("current.json"),
         "hourly": hourly,
         "daily": load_json_object_fixture("daily.json"),
+        "air_quality": load_json_object_fixture("air_quality.json"),
     }
 
 

@@ -18,7 +18,11 @@ import pytest
 
 from custom_components.foreca_weather.api import ForecaWeatherApi
 from custom_components.foreca_weather.const import DAILY_PERIODS, HOURLY_PERIODS
-from custom_components.foreca_weather.helpers import CONDITIONS, symbol_to_condition
+from custom_components.foreca_weather.helpers import (
+    CONDITIONS,
+    pollutant_key,
+    symbol_to_condition,
+)
 
 LATITUDE = 60.1699
 LONGITUDE = 24.9384
@@ -65,3 +69,12 @@ async def test_daily_forecast(api: ForecaWeatherApi) -> None:
     assert all(dt_util.parse_date(day.date or "") for day in daily)
     assert all(isinstance(day.max_temp, int | float) for day in daily)
     assert all(isinstance(day.min_temp, int | float) for day in daily)
+
+
+async def test_air_quality(api: ForecaWeatherApi) -> None:
+    """The plan serves air quality, with an index and a main pollutant the map knows."""
+    air_quality = (await api.async_get_data()).air_quality
+    assert air_quality is not None
+    assert isinstance(air_quality.aqi, int | float)
+    assert isinstance(air_quality.aqi_pm2p5, int | float)
+    assert pollutant_key(air_quality.pollutant) is not None

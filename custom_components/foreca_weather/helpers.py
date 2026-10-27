@@ -19,6 +19,18 @@ from homeassistant.components.weather import (
 )
 from pyforeca import Symbol
 
+# fmt: off
+# Foreca's names for the main pollutant, as its air-quality schema lists them.
+POLLUTANTS = {
+    "Carbon monoxide":           "carbon_monoxide",
+    "Nitrogen dioxide":          "nitrogen_dioxide",
+    "Ozone":                     "ozone",
+    "Particulate matter <10um":  "pm10",
+    "Particulate matter <2.5um": "pm25",
+    "Sulphur dioxide":           "sulphur_dioxide",
+}
+# fmt: on
+
 # Every condition symbol_to_condition can return, for the condition sensor's options.
 CONDITIONS = [
     ATTR_CONDITION_CLEAR_NIGHT,
@@ -32,6 +44,11 @@ CONDITIONS = [
     ATTR_CONDITION_SNOWY_RAINY,
     ATTR_CONDITION_SUNNY,
 ]
+
+
+def pollutant_key(name: str | None) -> str | None:
+    """Map Foreca's name for the main pollutant to the sensor's state."""
+    return POLLUTANTS.get(name) if name is not None else None
 
 
 def symbol_to_condition(code: str | None) -> str | None:

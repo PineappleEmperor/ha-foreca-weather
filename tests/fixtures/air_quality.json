@@ -1,0 +1,16 @@
+{
+  "forecast": [
+    {
+      "AQI": 102,
+      "AQI_CO": 8,
+      "AQI_NO2": 6,
+      "AQI_O3": 24,
+      "AQI_PM10": 64,
+      "AQI_PM2P5": 102,
+      "AQI_SO2": 4,
+      "pollutant": "Particulate matter <2.5um",
+      "pollutantPhrase": "Particulate matter <2.5 µm",
+      "time": "2026-10-24T10:00Z"
+    }
+  ]
+}

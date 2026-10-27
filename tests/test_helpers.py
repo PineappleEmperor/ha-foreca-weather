@@ -2,7 +2,12 @@
 
 import pytest
 
-from custom_components.foreca_weather.helpers import CONDITIONS, symbol_to_condition
+from custom_components.foreca_weather.helpers import (
+    CONDITIONS,
+    POLLUTANTS,
+    pollutant_key,
+    symbol_to_condition,
+)
 
 
 @pytest.mark.parametrize(
@@ -48,3 +53,22 @@ def test_symbol_to_condition(code: str, condition: str) -> None:
 def test_symbol_without_condition(code: str | None) -> None:
     """A code Foreca's legend does not cover maps to no condition."""
     assert symbol_to_condition(code) is None
+
+
+@pytest.mark.parametrize(
+    ("name", "key"),
+    [
+        pytest.param("Carbon monoxide", "carbon_monoxide", id="co"),
+        pytest.param("Nitrogen dioxide", "nitrogen_dioxide", id="no2"),
+        pytest.param("Ozone", "ozone", id="o3"),
+        pytest.param("Particulate matter <10um", "pm10", id="pm10"),
+        pytest.param("Particulate matter <2.5um", "pm25", id="pm25"),
+        pytest.param("Sulphur dioxide", "sulphur_dioxide", id="so2"),
+        pytest.param("Pollen", None, id="undocumented"),
+        pytest.param(None, None, id="missing"),
+    ],
+)
+def test_pollutant_key(name: str | None, key: str | None) -> None:
+    """Each documented pollutant maps to a sensor state; anything else to none."""
+    assert pollutant_key(name) == key
+    assert key is None or key in POLLUTANTS.values()

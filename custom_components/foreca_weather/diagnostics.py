@@ -22,4 +22,5 @@ async def async_get_config_entry_diagnostics(
         "current": asdict(data.current),
         "hourly": [asdict(item) for item in data.hourly],
         "daily": [asdict(item) for item in data.daily],
+        "air_quality": asdict(data.air_quality) if data.air_quality else None,
     }

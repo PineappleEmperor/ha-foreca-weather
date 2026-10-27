@@ -2,7 +2,7 @@
 
 Weather and forecasts from [Foreca](https://www.foreca.com) in Home Assistant: a weather
 entity with the current conditions and hourly and daily forecasts, and sensors for the
-values worth a history of their own.
+values worth a history of their own, air quality among them.
 
 > [!NOTE]
 > **AI assistance:** I'm a programmer; this project is built with AI (Claude, via Claude Code) for implementation, code review, and QA — under human direction, guided by my [`ha-integration`](https://github.com/PineappleEmperor/ha-skills) skill. Architecture and final review are mine; every change is human-reviewed before it merges.
@@ -14,7 +14,8 @@ values worth a history of their own.
 ## What it does
 
 Each entry is one place. For it, the integration asks Foreca's Weather API for the
-current conditions, the next 24 hours and the next 7 days, and shows them as:
+current conditions, the next 24 hours, the next 7 days and the air quality, and shows
+them as:
 
 - a **weather entity**, whose state is the current condition and whose hourly and daily
   forecasts work with the weather card and the `weather.get_forecasts` action;
@@ -29,6 +30,7 @@ Weather data is provided by Foreca, and every entity says so in its attribution.
   reading.
 - Graph temperature, wind and pressure against your own sensors.
 - Warn when the chance of precipitation in the next hours passes a threshold.
+- Close the windows or start the air purifier when the air quality index climbs.
 - Follow several places — home, a cabin, a commute — as separate entries.
 
 ## Installation
@@ -89,7 +91,9 @@ Home Assistant converts every value to your unit system.
 
 ### Sensors
 
-The first five are enabled; enable any other from the entity's settings.
+The first six are enabled; enable any other from the entity's settings. The air-quality
+indices are on the US EPA scale, where lower is better; each pollutant's own index is the
+one the overall index takes the worst of.
 
 | Sensor | Enabled by default |
 |---|---|
@@ -98,6 +102,7 @@ The first five are enabled; enable any other from the entity's settings.
 | Atmospheric pressure | yes |
 | Wind speed | yes |
 | UV index | yes |
+| Air quality index | yes |
 | Apparent temperature | no |
 | Dew point | no |
 | Wind gust speed | no |
@@ -112,12 +117,14 @@ The first five are enabled; enable any other from the entity's settings.
 | High temperature today | no |
 | Low temperature today | no |
 | Precipitation today | no |
+| Main pollutant | no |
+| Carbon monoxide, nitrogen dioxide, ozone, sulphur dioxide, PM10 and PM2.5 air quality index, one sensor each | no |
 
 ## Data updates
 
-The integration polls Foreca every 10 minutes. Each poll is three requests — current
-conditions, hourly forecast, daily forecast — so one entry makes 432 requests a day,
-within the free plan's 2,000. Adding a place or changing one makes one request more.
+The integration polls Foreca every 10 minutes. Each poll is four requests — current
+conditions, hourly forecast, daily forecast, air quality — so one entry makes 576
+requests a day, within the free plan's 2,000. Adding a place or changing one makes one request more.
 
 ## Example
 
@@ -144,13 +151,14 @@ actions:
 
 ## Known limitations
 
-- Foreca's free plan allows 2,000 requests a day and non-commercial use only; four
+- Foreca's free plan allows 2,000 requests a day and non-commercial use only; three
   entries on one key use 1,728 of them.
 - The conditions come from Foreca's weather symbol, which describes cloud cover and
   precipitation. It has no wind, hail or exceptional weather, so the integration never
   reports `windy`, `windy-variant`, `hail`, `lightning` without rain, or `exceptional`.
-- The forecast covers 24 hours and 7 days. Weather warnings, air quality and pollen are
-  not included.
+- The forecast covers 24 hours and 7 days. Weather warnings and pollen are not included.
+- The air quality is the nearest hour of Foreca's air-quality forecast, not a reading
+  from a station.
 - The values are Foreca's in metric units; Home Assistant does the conversion.
 
 ## Troubleshooting
